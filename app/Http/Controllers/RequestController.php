@@ -65,6 +65,9 @@ class RequestController extends Controller
                 'status1' => 'rejected',
                 'manager_id' => auth()->user()->id
             ]);
+            $reqHeader->update([
+                'status2' => 'rejected',
+            ]);
         }
 
         // ================= SUPERVISOR REJECT =================

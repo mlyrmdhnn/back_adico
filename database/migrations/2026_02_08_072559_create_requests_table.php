@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('status1');
             $table->string('status2');
             $table->string('message')->nullable();
+            $table->string('reject_reason')->nullable();
             $table->timestamps();
         });
     }

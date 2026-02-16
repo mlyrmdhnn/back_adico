@@ -11,7 +11,6 @@ use App\Http\Services\CustomerCodeService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -92,7 +91,7 @@ class CustomerController extends Controller
     {
         $now = Carbon::now();
 
-        $customers = Customer::where('salesman_id', auth()->user()->id)
+        $customers = Customer::with(['createdBySalesman'])->where('salesman_id', auth()->user()->id)
         ->whereYear('created_date', $now->year)
         ->whereMonth('created_at', $now->month)
         ->orderBy('created_date', 'asc')->get();
