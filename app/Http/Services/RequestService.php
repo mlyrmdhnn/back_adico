@@ -19,7 +19,7 @@ class RequestService {
             $requestHeader = Requests::create([
                 'uuid' => $uuid,
                 'salesman_id' => auth()->user()->id,
-                'store_id' => $data->store_id,
+                'customer_id' => $data->customer_id,
                 'payment_method_id' => $data->payment_method_id,
                 'status1' => 'pending',
                 'status2' => 'pending',

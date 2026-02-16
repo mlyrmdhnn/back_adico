@@ -10,11 +10,8 @@ class InboxService {
     {
         return Requests::with([
             'salesman:id,name,code,deleted_at',
-            'store:id,name,address'
-        ])
-        ->select('id', 'salesman_id', 'store_id', 'status1', 'status2','created_at')
-        ->latest()
-        ->paginate(10);
+            'customer:id,store_name,address'
+        ])->latest()->paginate(10);
     }
 
 
@@ -23,7 +20,7 @@ class InboxService {
     {
         return Requests::with(['salesman', 'store'])
         ->where('status', 'LIKE', "%$keyword%")
-        ->orWhere('uuid', 'LIKE', "%$keyword%")
+        ->orWhere('created_at', 'LIKE', "%$keyword%")
         ->orWhereHas('salesman', function($s) use ($keyword) {
             $s->where('name', 'LIKE', "%$keyword%")
             ->orWhere('code', 'LIKE', "%$keyword%");

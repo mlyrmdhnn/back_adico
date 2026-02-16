@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserRoomChat;
 use Illuminate\Http\Request;
@@ -78,6 +79,35 @@ class ChatContoller extends Controller
             'type' => 'developer',
             'isRead' => false,
             'chat' => $request->message
+        ],201);
+    }
+
+    public function userChatCountNotification()
+    {
+        $userId = auth()->user()->id;
+        $developerId = User::where('role', 'developer')->first()->id;
+        $count = UserRoomChat::where('to', $developerId)->where('isRead', 0)->count();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'success',
+            'data' => $count
+        ]);
+    }
+
+    public function userReadChat()
+    {
+        $userId = auth()->user()->id;
+        $chatUser = UserRoomChat::where('from', $userId)->get();
+
+        foreach($chatUser as $c) {
+            $c->update([
+                'isRead' => true
+            ]);
+        }
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'read notification',
         ],201);
     }
 }

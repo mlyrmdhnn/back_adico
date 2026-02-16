@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\CustomerService;
 use App\Models\Customer;
 use App\Models\DataCustomer;
+// use App\Services\CustomerCodeService;
+use App\Http\Services\CustomerCodeService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -23,7 +28,7 @@ class CustomerController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => Customer::with(['store'])->where('id', $id)->first()
+            'data' => Customer::with(['createdBySalesman'])->where('id', $id)->first()
         ]);
     }
 
@@ -33,7 +38,7 @@ class CustomerController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => Customer::with(['store'])->latest()->paginate(10)
+            'data' => Customer::with(['createdBySalesman'])->latest()->paginate(10)
         ]);
     }
 
@@ -49,8 +54,8 @@ class CustomerController extends Controller
 
     public function delete(Request $request)
     {
-        $this->authorize('delete', DataCustomer::class);
-        $customer = DataCustomer::where('id', $request->id)->first();
+        $this->authorize('delete', Customer::class);
+        $customer = Customer::where('id', $request->id)->first();
         $customer->delete();
         return response()->json([
             'status' => 'ok',
@@ -58,23 +63,29 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request, CustomerCodeService $service)
     {
-        $now = Carbon::now('Asia/Jakarta');
+        $customer = DB::transaction(function () use ($request, $service) {
 
-        Customer::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'npwp' => $request->npwp,
-            'salesman_id' => auth()->user()->id,
-            'created_date' => $now
-            // 'store_id' => $request->storeId
-        ]);
+            $customerCode = $service->generate($request->storeName);
+
+            return Customer::create([
+                'customer_code' => $customerCode,
+                'phone' => $request->phone,
+                'npwp' => $request->npwp,
+                'salesman_id' => auth()->id(),
+                'created_date' => now('Asia/Jakarta'),
+                'address' => $request->address,
+                'store_name' => $request->storeName,
+                'pic' => $request->pic,
+                're' => $request->re
+            ]);
+        });
 
         return response()->json([
             'status' => 'ok',
-            'message' => 'success'
-        ],201);
+            'data' => $customer
+        ], 201);
     }
 
     public function customerMonthly()
@@ -115,6 +126,24 @@ class CustomerController extends Controller
             'message' => 'success',
             'data'    => $customers
         ]);
+    }
+
+    public function edit(Request $request)
+    {
+        $customer = Customer::where('id', $request->id)->first();
+        $customer->update([
+            'store_name' => $request->store_name,
+            'phone' => $request->phone,
+            'npwp' => $request->npwp,
+            'address' => $request->address,
+            'pic' => $request->pic,
+            're' => $request->re
+        ]);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'success'
+        ],201);
     }
 
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\store;
+// use App\Models\store;
 use App\Models\Store as ModelsStore;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -16,7 +17,7 @@ class StoreController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => store::with(['customer'])->latest()->get()
+            'data' => ModelsStore::with(['customer'])->latest()->get()
         ]);
     }
 
@@ -25,13 +26,13 @@ class StoreController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => store::latest()->paginate(10)
+            'data' => ModelsStore::latest()->paginate(10)
         ]);
     }
 
     public function search($keyword)
     {
-        $store = store::where('name', 'LIKE', "%$keyword%")
+        $store = ModelsStore::where('name', 'LIKE', "%$keyword%")
         ->orWhere('address', 'LIKE', "%$keyword%")
         ->latest()->paginate(10);
 
@@ -44,7 +45,7 @@ class StoreController extends Controller
 
     public function edit(Request $request)
     {
-        $store = store::where('id', $request->id)->first();
+        $store = ModelsStore::where('id', $request->id)->first();
         $store->update([
             'name' => $request->name,
             'address' => $request->address
@@ -78,7 +79,7 @@ class StoreController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id;
-        $store = store::where('id', $id)->first();
+        $store = ModelsStore::where('id', $id)->first();
         $store->delete();
         return response()->json([
             'status' => 'ok',
@@ -91,7 +92,7 @@ class StoreController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => store::where('id', $id)->first()
+            'data' => ModelsStore::where('id', $id)->first()
         ]);
     }
 
@@ -99,7 +100,7 @@ class StoreController extends Controller
     {
         $now = Carbon::now();
 
-        $stores = Store::where('salesman_id', auth()->user()->id)
+        $stores = ModelsStore::where('salesman_id', auth()->user()->id)
             ->whereYear('created_date', $now->year)
             ->whereMonth('created_date', $now->month)
             ->orderBy('created_date', 'asc')
@@ -124,7 +125,7 @@ class StoreController extends Controller
             'end'   => 'required|date',
         ]);
 
-        $stores = Store::where('salesman_id', auth()->user()->id)
+        $stores = ModelsStore::where('salesman_id', auth()->user()->id)
             ->whereBetween('created_date', [
                 Carbon::parse($request->start)->startOfDay(),
                 Carbon::parse($request->end)->endOfDay(),

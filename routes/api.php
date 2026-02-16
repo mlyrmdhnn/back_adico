@@ -76,6 +76,7 @@ Route::middleware(['jwt.cookie' ,'throttle:120,1'])->group(function() {
     Route::post('/customer/delete', [CustomerController::class, 'delete']);
     Route::post('/customer/create', [CustomerController::class, 'create']);
     Route::get('/customer/detail/{id}', [CustomerController::class, 'detail']);
+    Route::post('/customer/edit', [CustomerController::class, 'edit']);
     // store
     Route::get('/store/all', [StoreController::class, 'allStore']);
     Route::get('/stores', [StoreController::class, 'all']);
@@ -127,6 +128,7 @@ Route::middleware(['jwt.cookie' ,'throttle:120,1'])->group(function() {
     Route::get('/salesman/notification', [NotificationController::class, 'salesmanNotif']);
     Route::get('/notification/count', [NotificationController::class, 'count']);
     Route::post('/notification/read', [NotificationController::class, 'readNotif']);
+
     // user
     Route::get('/user/all', [UserController::class, 'getUser']);
     // chat developer
@@ -135,6 +137,8 @@ Route::middleware(['jwt.cookie' ,'throttle:120,1'])->group(function() {
     Route::post('/developer/detail/chat', [ChatContoller::class, 'devDetailChat']);
     Route::get('/developer/room-chat', [ChatContoller::class, 'roomChatDev']);
     Route::post('/developer/send', [ChatContoller::class, 'devSend']);
+    Route::get('/user/chat/count/notification', [ChatContoller::class, 'userChatCountNotification']);
+    Route::post('/user/chat/read', [ChatContoller::class, 'userReadChat']);
 });
 
 Route::get('/salesman/omset', [OmsetController::class, 'salesmanOmset']);

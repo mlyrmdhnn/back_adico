@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\NotificationService;
 use App\Models\Notifications;
 use App\Models\User;
@@ -61,7 +62,6 @@ class NotificationController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            // 'data' => Notifications::where('user_id', auth()->user()->id)->where('isRead', false)->count()
             'data' => Notifications::where('user_id', auth()->user()->id)->where('isRead', 0)->count()
         ]);
     }

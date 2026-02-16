@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\InboxService;
 use App\Http\Services\RequestService;
 use App\Models\RequestItems;
@@ -40,7 +41,7 @@ class InboxController extends Controller
             'supervisor',
             'paymentMethod',
             'salesman',
-            'store',
+            'customer',
             'requestItems.product.brand',
             'requestItems.product.uom',
             'requestItems.product.configuration'

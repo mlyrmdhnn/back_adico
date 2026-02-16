@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173','https://adico.test', 'http://localhost:4173',],
+    'allowed_origins' => ['https://adico.my.id', 'https://adico.test'],
 
     'allowed_origins_patterns' => [],
 

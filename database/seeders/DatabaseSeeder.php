@@ -2,26 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Attendance;
 use App\Models\AttendanceType;
-use App\Models\Brand;
-use App\Models\Configuration;
-use App\Models\Customer;
-use App\Models\HariKerja;
-use App\Models\Notifications;
-use App\Models\OmsetSalesman;
 use App\Models\PaymentMethod;
 use App\Models\User;
-use App\Models\Product;
-use App\Models\RequestItems;
-use App\Models\Requests;
-use App\Models\SalesTargets;
-use App\Models\Store;
-use App\Models\Uom;
-use App\Models\UserChat;
+use Database\Seeders\ProductImportSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -47,15 +34,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
             'phone' => '12344567'
         ]);
-
-        // User::factory()->create([
-        //     'name' => 'Anita Sari',
-        //     'username' => 'salesman1',
-        //     'role' => 'salesman',
-        //     'password' => Hash::make('password'),
-        //     'phone' => '',
-        //     'code' => 'TO-001'
-        // ]);
 
         $salesmen = [
             ['name' => 'ANITA SARI', 'username' => 'salesman1', 'code' => 'TO-001'],
@@ -92,13 +70,29 @@ class DatabaseSeeder extends Seeder
         AttendanceType::factory()->create([
             'type' => 'telat'
         ]);
+        AttendanceType::factory()->create([
+            'type' => 'izin setengah hari'
+        ]);
 
         $this->call(ProductImportSeeder::class);
+        $this->call(CustomerImportSeeder::class);
+
+        PaymentMethod::factory()->create([
+            'name' => 'cash'
+        ]);
+        PaymentMethod::factory()->create([
+            'name' => 'kredit (7 hari)'
+        ]);
+        PaymentMethod::factory()->create([
+            'name' => 'kredit (14 hari)'
+        ]);
+        PaymentMethod::factory()->create([
+            'name' => 'kredit (21 hari)'
+        ]);
+        PaymentMethod::factory()->create([
+            'name' => 'kredit (30 hari)'
+        ]);
 
 
-        // Uom::factory()->create([]);
-        // Configuration::factory()->create();
-        // Brand::factory()->create();
-        // Product::factory()->create();
     }
 }

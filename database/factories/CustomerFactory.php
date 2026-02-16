@@ -18,11 +18,11 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'npwp' => fake()->numberBetween(000000, 999999),
-            'phone' => fake()->phoneNumber(),
-            'created_date' => fake()->dateTimeBetween('2026-01-01', '2026-02-28'),
-            'salesman_id' => User::inRandomOrder()->value('id')
+            // 'name' => fake()->name(),
+            // 'npwp' => fake()->numberBetween(000000, 999999),
+            // 'phone' => fake()->phoneNumber(),
+            // 'created_date' => fake()->dateTimeBetween('2026-01-01', '2026-02-28'),
+            // 'salesman_id' => User::inRandomOrder()->value('id')
         ];
     }
 }

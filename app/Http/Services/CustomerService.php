@@ -3,18 +3,18 @@
 namespace App\Http\Services;
 
 use App\Models\Customer;
-use App\Models\DataCustomer;
+// use App\Models\DataCustomer;
 
 class CustomerService {
     public function searchCustomer($keyword)
     {
-        return Customer::with(['store'])->where(function($c) use ($keyword) {
-            $c->where('npwp', 'LIKE', "%$keyword%")
-            ->orWhere('phone' ,'LIKE', "%$keyword%")
-            ->orWhereHas('store', function($s) use ($keyword) {
-                $s->where('name', 'LIKE', "%$keyword%")
-                ->orWhere('address', 'LIKE', "%$keyword%");
-            } );
-        })->latest()->paginate(10);
+        return Customer::where('customer_code', 'LIKE', "%$keyword%}")
+        ->orWhere('store_name', 'LIKE', "%$keyword%")
+        ->orWhere('phone', 'LIKE', "%$keyword%")
+        ->orWhere('npwp', 'LIKE', "%$keyword%")
+        ->orWhere('address', 'LIKE', "%$keyword%")
+        ->orWhere('pic', 'LIKE', "$keyword")
+        ->orWhere('re', 'LIKE', "%$keyword%")
+        ->latest()->paginate(10);
     }
 }

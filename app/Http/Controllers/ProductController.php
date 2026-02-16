@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\ProductService;
 use App\Models\Brand;
-use App\Models\configuration;
 use App\Models\Configuration as ModelsConfiguration;
+use App\Models\Configuration;
 use App\Models\Product;
-use App\Models\uom;
-use App\Models\Uom as ModelsUom;
+// use App\Models\uom;
+use App\Models\Uom;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -48,7 +49,7 @@ class ProductController extends Controller
 
     public function createConfiguration(Request $request, ProductService $service)
     {
-        $this->authorize('create', configuration::class);
+        $this->authorize('create', Configuration::class);
         $credentials = $request->validate(['configuration' => 'required']);
         $service->createConfiguration($credentials);
 
@@ -71,7 +72,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => 'ok',
             'message' => 'success',
-            'data' => uom::latest()->get()
+            'data' => Uom::latest()->get()
         ]);
     }
     public function getConfiguration()
@@ -171,7 +172,7 @@ class ProductController extends Controller
 
     public function editUom(Request $request)
     {
-        $uom = ModelsUom::where('id', $request->id)->first();
+        $uom = Uom::where('id', $request->id)->first();
         $uom->update([
             'name' => $request->name
         ]);

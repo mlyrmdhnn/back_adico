@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uuid');
             $table->foreignId('salesman_id')->constrained('users', 'id');
-            $table->foreignId('store_id')->constrained('stores', 'id');
+            $table->foreignId('customer_id')->constrained('customer', 'id');
             $table->foreignId('manager_id')->nullable()->constrained('users', 'id');
             $table->foreignId('supervisor_id')->nullable()->constrained('users', 'id');
             $table->foreignId('payment_method_id')->constrained('payment_method', 'id');

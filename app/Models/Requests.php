@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\PaymentMethod;
+use App\Models\RequestItems;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,15 +27,23 @@ class Requests extends Model
         return $this->belongsTo(Store::class, 'store_id');
     }
 
+    public function customer() :BelongsTo
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
     public function requestItems() :HasMany
     {
         return $this->hasMany(RequestItems::class,'request_id');
     }
 
+
     public function paymentMethod() :BelongsTo
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
+
+
 
     public function manager() :BelongsTo
     {

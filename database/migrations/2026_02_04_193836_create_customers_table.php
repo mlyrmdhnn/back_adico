@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('customer', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('customer_code')->index();
+            $table->string('store_name');
+            $table->string('phone')->nullable();
             $table->string('npwp')->nullable();
-            $table->string('phone');
-            $table->foreignId('salesman_id')->constrained('users', 'id');
-            $table->date('created_date');
+            $table->text('address');
+            $table->string('pic')->nullable();
+            $table->string('re')->nullable();
+            $table->foreignId('salesman_id')->nullable()->constrained('users', 'id');
+            $table->date('created_date')->nullable();
             $table->timestamps();
         });
     }

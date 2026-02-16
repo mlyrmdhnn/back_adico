@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Services\OmsetService;
 use App\Models\OmsetSalesman;
 use App\Models\SalesTargets;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 
 class OmsetController extends Controller

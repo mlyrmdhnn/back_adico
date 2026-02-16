@@ -7,6 +7,7 @@ use App\Models\UserChat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 
 // use Pest\Support\Str;

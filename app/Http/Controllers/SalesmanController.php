@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Services\SalesmanService;
 use App\Models\HariKerja;
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+
 
 class SalesmanController extends Controller
 {
