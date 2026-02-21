@@ -20,7 +20,7 @@ class HariKerjaFactory extends Factory
         return [
             'day' => 100,
             'period' => fake()->dateTimeBetween('2026-01-01', '2026-03-01'),
-            'salesman_id' => User::inRandomOrder()->value('id'),
+            'salesman_id' => User::inRandomOrder()->value('id')
         ];
     }
 }

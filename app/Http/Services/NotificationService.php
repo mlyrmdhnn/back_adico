@@ -15,7 +15,8 @@ class NotificationService {
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'isRead' => false,
-                'type' => 'global'
+                'type' => 'global',
+                'file' => $data['filePath']
             ]);
         }
     }

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserChat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SalesmanService {
     public function create(array $data)
@@ -49,7 +50,11 @@ class SalesmanService {
     }
     public function delete($id)
     {
+        $rand = Carbon::now()->getTimestampMs();
         $user = User::where('id', $id)->first();
-        return $user->delete();
+        $user->update([
+            'username' => $rand
+        ]);
+        $user->delete();
     }
 }

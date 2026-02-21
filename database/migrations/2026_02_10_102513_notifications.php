@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->enum('type', ['global', 'personal']);
             $table->text('description');
+            $table->string('file')->nullable();
             $table->boolean('isRead')->default(false);
             $table->timestamps();
         });

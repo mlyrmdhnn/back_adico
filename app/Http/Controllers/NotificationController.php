@@ -13,32 +13,51 @@ class NotificationController extends Controller
 {
     public function createGlobal(Request $request, NotificationService $service)
     {
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'title' => 'required|max:30',
-            'description' => 'required|max:255'
+            'description' => 'required|max:255',
+            'file' => 'nullable|file|mimes:pdf|max:5120'
         ]);
 
-        $notif = $service->createGlobal($credentials);
+        $filePath = null;
+
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('notifications', 'public');
+        }
+
+        $validated['filePath'] = $filePath;
+
+        $service->createGlobal($validated);
+
         return response()->json([
             'status' => 'ok',
             'message' => 'success to create notification'
-        ],201);
+        ], 201);
     }
-
     public function notifCreate(Request $request)
     {
         $credentials = $request->validate([
             'title' => 'required|max:30',
             'description' => 'required|max:255',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'file' => 'nullable|file|mimes:pdf|max:5120'
         ]);
+
+        $filePath = null;
+
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('notifications', 'public');
+        }
+
+        $validated['filePath'] = $filePath;
 
         Notifications::create([
             'title' => $credentials['title'],
             'description' => $credentials['description'],
             'user_id' => $credentials['user_id'],
             'isRead' => false,
-            'type' => 'personal'
+            'type' => 'personal',
+            'file' => $filePath
         ]);
 
         return response()->json([

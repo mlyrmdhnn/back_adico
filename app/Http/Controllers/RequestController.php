@@ -12,12 +12,14 @@ use App\Models\RequestItems;
 use App\Models\Requests;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Cache;
 
 class RequestController extends Controller
 {
     public function create(Request $request, RequestService $service)
     {
+        Cache::forget('requests_page_1');
+
         $req = $service->create($request);
         return response()->json([
             'status' => 'ok',
@@ -49,6 +51,7 @@ class RequestController extends Controller
         $this->authorize('updateStatus', User::class);
         $reqHeader = Requests::where('id', $request->id)->first();
 
+
         // ================= MANAGER REJECT =================
         if (auth()->user()->role === 'manager') {
 
@@ -68,6 +71,9 @@ class RequestController extends Controller
             $reqHeader->update([
                 'status2' => 'rejected',
             ]);
+            $reqHeader->update([
+                'reject_reason' => $request->rejectReason
+            ]);
         }
 
         // ================= SUPERVISOR REJECT =================
@@ -85,8 +91,11 @@ class RequestController extends Controller
                 'status2' => 'rejected',
                 'supervisor_id' => auth()->user()->id
             ]);
+            $reqHeader->update([
+                'reject_reason' => $request->rejectReason
+            ]);
         }
-
+        Cache::forget('requests_page_1');
         return response()->json([
             'status' => 'ok',
             'message' => 'success update status'

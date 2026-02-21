@@ -141,4 +141,4 @@ Route::middleware(['jwt.cookie' ,'throttle:120,1'])->group(function() {
     Route::post('/user/chat/read', [ChatContoller::class, 'userReadChat']);
 });
 
-Route::get('/salesman/omset', [OmsetController::class, 'salesmanOmset']);
+Route::get('/salesman/omset/monthly', [OmsetController::class, 'salesmanOmset']);

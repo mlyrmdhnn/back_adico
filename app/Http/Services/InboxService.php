@@ -6,13 +6,7 @@ use App\Models\Requests;
 
 class InboxService {
 
-    public function getInbox()
-    {
-        return Requests::with([
-            'salesman:id,name,code,deleted_at',
-            'customer:id,store_name,address'
-        ])->latest()->paginate(10);
-    }
+
 
 
 

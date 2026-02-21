@@ -3,11 +3,12 @@
 namespace App\Http\Services;
 
 use App\Models\HariKerja;
-use Carbon\Carbon;
-use App\Models\Requests;
-use App\Models\RequestItems;
 use App\Models\OmsetSalesman;
+use App\Models\RequestItems;
+use App\Models\Requests;
 use App\Models\SalesTargets;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OmsetService {
@@ -71,7 +72,7 @@ class OmsetService {
                 'omset_value' => $totalOmset,
             ]);
         });
-
+        Cache::forget('requests_page_1');
         return true;
     }
 
