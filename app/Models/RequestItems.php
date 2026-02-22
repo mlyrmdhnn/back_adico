@@ -24,4 +24,9 @@ class RequestItems extends Model
         return $this->belongsTo(Product::class, 'product_id')->withTrashed();
     }
 
+    public function uom() : BelongsTo
+    {
+        return $this->belongsTo(Uom::class);
+    }
+
 }

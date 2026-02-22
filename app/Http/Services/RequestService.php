@@ -31,6 +31,7 @@ class RequestService {
                     'request_id' => $requestHeader->id,
                     'product_id' => $item['product_id'],
                     'qty' => $item['qty'],
+                    'uom_id' => $item['uom_id'],
                     'discount2' => $item['discount2'],
                     'created_at' => now(),
                     'updated_at' => now()

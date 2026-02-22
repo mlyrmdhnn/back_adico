@@ -55,7 +55,8 @@ class InboxController extends Controller
             'customer',
             'requestItems.product.brand',
             'requestItems.product.uom',
-            'requestItems.product.configuration'
+            'requestItems.product.configuration',
+            'requestItems.uom'
         ])
         ->findOrFail($id);
 
